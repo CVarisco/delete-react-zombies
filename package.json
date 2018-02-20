@@ -1,0 +1,19 @@
+{
+  "name": "delete-react-zombies",
+  "version": "1.0.0",
+  "description": "Search and delete unused components in your react files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CVarisco/delete-react-zombies.git"
+  },
+  "author": "Christian Varisco",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CVarisco/delete-react-zombies/issues"
+  },
+  "homepage": "https://github.com/CVarisco/delete-react-zombies#readme"
+}
