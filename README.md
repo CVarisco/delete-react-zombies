@@ -1,7 +1,12 @@
 # delete-react-zombies
+<<<<<<< HEAD
 [![npm version](https://badge.fury.io/js/delete-react-zombies.svg)](https://badge.fury.io/js/delete-react-zombies)
 [![npm](https://img.shields.io/npm/dw/delete-react-zombies.svg)](https://www.npmjs.com/package/delete-react-zombies)
 > CLI to search and delete unused 🧟‍♂️ components in your react files
+=======
+
+> CLI to search and delete unused 🧟 components in your react files
+>>>>>>> 77dc42989ec621853a27c7d464a53495b2652f6a
 
 <p align="center">
   <img src="https://github.com/CVarisco/delete-react-zombies/blob/master/docs/delete-react-zombies-demo.gif" alt="delete-react-zombies" width="800" />
