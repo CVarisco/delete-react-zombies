@@ -1,6 +1,6 @@
 # delete-react-zombies
 
-> CLI to search and delete unused 🧟‍♂️ components in your react files
+> CLI to search and delete unused 🧟 components in your react files
 
 <p align="center">
   <img src="https://github.com/CVarisco/delete-react-zombies/blob/master/docs/delete-react-zombies-demo.gif" alt="delete-react-zombies" width="800" />
