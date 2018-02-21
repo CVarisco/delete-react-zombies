@@ -98,6 +98,7 @@ function checkIfSilverSearchExist() {
 }
 
 async function startSearch() {
+  console.log('\n'); // free space
   const spinner = ora('Searching zombie components').start();
   try {
     const path = args.path || process.cwd();
