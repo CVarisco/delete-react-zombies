@@ -1,4 +1,4 @@
-# delete-react-zombies ⚠️ WIP
+# delete-react-zombies
 
 > CLI to search and delete unused 🧟‍♂️ components in your react files
 
@@ -8,8 +8,7 @@
 
 ## Install
 
-This package use [the_silver_searcher](https://github.com/ggreer/the_silver_searcher) to search into your files.
-Install [the_silver_searcher](https://github.com/ggreer/the_silver_searcher#installing) for your OS before.
+This package use the_silver_searcher, install [the_silver_searcher](https://github.com/ggreer/the_silver_searcher#installing) for your OS before.
 
 ```sh
 $ npm install delete-react-zombies
@@ -20,6 +19,16 @@ $ npm install delete-react-zombies
 ```sh
 $ delete-react-zombies
 ```
+
+## How it works
+
+The package search in your files the keyword `import ${componentName}`.
+The `componentName` variable is the name of the file that your component
+have with `.jsx` extension.
+
+Example:
+If we have a component file name `Button.jsx`, the package will search
+imports like `import Button`
 
 ## Contributing
 
