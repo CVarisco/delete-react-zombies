@@ -21,6 +21,9 @@ $ npm install delete-react-zombies
 ```sh
 $ delete-react-zombies
 ```
+**Options**:
+
+* `--path` define the path where search zombies (default=process.cwd)
 
 ## How it works
 
