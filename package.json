@@ -10,10 +10,13 @@
     "node": ">=6"
   },
   "main": "./dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint src test",
     "build": "./scripts/build.sh",
+    "build:ts": "tsc -w",
     "watch": "npm-watch",
     "try": "node ./dist/index.js",
     "test": "jest",
@@ -45,6 +48,8 @@
     "npm-watch": "^0.1.7"
   },
   "dependencies": {
+    "@types/node": "12.0.4",
+    "fp-ts": "1.18.2",
     "inquirer": "5.1.0",
     "ora": "1.4.0",
     "yargs": "11.0.0"

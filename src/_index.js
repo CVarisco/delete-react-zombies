@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const { exec } = require('child_process');
-const ora = require('ora');
-const inquirer = require('inquirer');
-const args = require('yargs').argv;
+const fs = require("fs");
+const { exec } = require("child_process");
+const ora = require("ora");
+const inquirer = require("inquirer");
+const args = require("yargs").argv;
 
 /**
  * Return all the components in the path with .jsx extension
@@ -19,13 +19,13 @@ function getComponents(path) {
       return [...components, ...getComponents(`${path}/${file}`)];
     }
 
-    if (file.includes('.jsx')) {
+    if (file.includes(".jsx")) {
       return [
         ...components,
         {
-          filename: file.substring(0, file.indexOf('.jsx')),
-          path: `${path}/${file}`,
-        },
+          filename: file.substring(0, file.indexOf(".jsx")),
+          path: `${path}/${file}`
+        }
       ];
     }
 
@@ -39,7 +39,7 @@ function getComponents(path) {
  * @return {Promise}
  */
 function searchImportsCommand(componentName) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     exec(`ag -G 'jsx?$' 'import ${componentName}' -l`, (err, stdout) => {
       if (err) {
         // node couldn't execute the command
@@ -65,17 +65,17 @@ async function getUnImportedComponents(components) {
     }
   }
 
-  return unused.filter(component => component.filename !== 'index');
+  return unused.filter(component => component.filename !== "index");
 }
 
 async function deleteZombies(components) {
   for (const component of components) {
     const answer = await inquirer.prompt([
       {
-        type: 'confirm',
-        name: 'confirm',
-        message: `Do you want delete ${component.path} ?`,
-      },
+        type: "confirm",
+        name: "confirm",
+        message: `Do you want delete ${component.path} ?`
+      }
     ]);
     if (answer.confirm) {
       fs.unlinkSync(component.path);
@@ -88,7 +88,7 @@ async function deleteZombies(components) {
  */
 function checkIfSilverSearchExist() {
   return new Promise((resolve, reject) => {
-    exec('ag --version', (err) => {
+    exec("ag --version", err => {
       if (err) {
         reject(err);
       }
@@ -98,8 +98,8 @@ function checkIfSilverSearchExist() {
 }
 
 async function startSearch() {
-  console.log('\n'); // free space
-  const spinner = ora('Searching zombie components').start();
+  console.log("\n"); // free space
+  const spinner = ora("Searching zombie components").start();
   try {
     const path = args.path || process.cwd();
     const components = getComponents(path);
@@ -107,10 +107,12 @@ async function startSearch() {
     spinner.stop();
 
     if (!unImportedComponents.length) {
-      return console.log('\n Unused components not found! \n');
+      return console.log("\n Unused components not found! \n");
     }
 
-    console.log(`\n ${unImportedComponents.length} unused components found! \n`);
+    console.log(
+      `\n ${unImportedComponents.length} unused components found! \n`
+    );
     return deleteZombies(unImportedComponents);
   } catch (error) {
     spinner.stop();
@@ -125,4 +127,4 @@ async function startSearch() {
   } catch (error) {
     console.log(error);
   }
-}());
+})();
