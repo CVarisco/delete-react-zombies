@@ -1,30 +1,14 @@
 #!/usr/bin/env node
 import * as fs from "fs";
 import ora from "ora";
-import { Option, none, some } from "fp-ts/lib/Option";
 import { argv as args } from "yargs";
 import { prompt } from "inquirer";
-
-const isImported = (text: string, content: string): boolean =>
-  content.indexOf(`import ${text}`) !== -1;
-
-const regexp: RegExp = new RegExp("export default (.*)");
-
-const getComponentName = (text: string): Option<string> => {
-  const res = text.match(regexp);
-
-  if (!res) {
-    return none;
-  }
-
-  // Strip all the useless information from the string to get the name of the component
-  return some(
-    res[1].replace(
-      /;|null|class|extends|React.Component|{| |Component|connect|mapStateToProps|,|mapDispatchToProps|\)|\(|React.Pure|Pure/g,
-      ""
-    )
-  );
-};
+import {
+  isImported,
+  getComponentName,
+  deleteComponents,
+  deleteComponent
+} from "./utils";
 
 function getPathFiles(path: string): FileReaded[] {
   const files = fs.readdirSync(path);
@@ -124,12 +108,6 @@ async function askBeforeDelete(components: Component[]) {
     }
   }
 }
-
-const deleteComponents = (components: Component[]) =>
-  components.forEach(deleteComponent);
-
-const deleteComponent = (component: Component) =>
-  fs.existsSync(component.path) && fs.unlinkSync(component.path);
 
 (async function() {
   const spinner = ora({
