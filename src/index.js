@@ -60,7 +60,7 @@ async function getUnImportedComponents(components) {
   const unused = [];
 
   for (const component of components) {
-    const result = await searchImportsCommand(component.filename, extension);
+    const result = await searchImportsCommand(component.filename);
     if (!result) {
       unused.push(component);
     }
