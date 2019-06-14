@@ -129,5 +129,6 @@ async function askBeforeDelete(components: Component[]) {
     return deleteComponents(zombieComponents);
   }
 
-  return await askBeforeDelete(zombieComponents);
+  await askBeforeDelete(zombieComponents);
+  return console.log("\nBye bye!");
 })();
