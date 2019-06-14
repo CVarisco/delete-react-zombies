@@ -23,7 +23,8 @@ $ delete-react-zombies
 ```
 **Options**:
 
-* `--path` define the path where search zombies (default=process.cwd)
+* `--path` define the path where to search for zombies (default=process.cwd)
+* `--extension` define the file extension to where to search for zombies (default=jsx)
 
 ## How it works
 

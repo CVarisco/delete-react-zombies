@@ -4,26 +4,27 @@ const { exec } = require('child_process');
 const ora = require('ora');
 const inquirer = require('inquirer');
 const args = require('yargs').argv;
+const extension = args.extension || 'jsx';
 
 /**
- * Return all the components in the path with .jsx extension
+ * Return all the components in the path with the define extension
  * @param {String} path start from search path
  * @return {Array} components included in the path
  */
 function getComponents(path) {
   const files = fs.readdirSync(path);
-
+  
   return files.reduce((components, file) => {
     const isDirectory = fs.statSync(`${path}/${file}`).isDirectory();
     if (isDirectory) {
       return [...components, ...getComponents(`${path}/${file}`)];
     }
 
-    if (file.includes('.jsx')) {
+    if (file.includes(`.${extension}`)) {
       return [
         ...components,
         {
-          filename: file.substring(0, file.indexOf('.jsx')),
+          filename: file.substring(0, file.indexOf(`.${extension}`)),
           path: `${path}/${file}`,
         },
       ];
@@ -40,7 +41,7 @@ function getComponents(path) {
  */
 function searchImportsCommand(componentName) {
   return new Promise((resolve) => {
-    exec(`ag -G 'jsx?$' 'import ${componentName}' -l`, (err, stdout) => {
+    exec(`ag -G '${extension}?$' 'import ${componentName}' -l`, (err, stdout) => {
       if (err) {
         // node couldn't execute the command
         resolve(false);
