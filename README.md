@@ -1,16 +1,17 @@
-# delete-react-zombies
+<p align="center">
+  <img src=".https://github.com/CVarisco/delete-react-zombies/blob/master/docs/logo.png" width="500" alt="delete-react-zombies"/>
+</p>
+
 [![npm version](https://badge.fury.io/js/delete-react-zombies.svg)](https://badge.fury.io/js/delete-react-zombies)
 [![npm](https://img.shields.io/npm/dw/delete-react-zombies.svg)](https://www.npmjs.com/package/delete-react-zombies)
 
-> CLI to search and delete unused 🧟 components in your react files
+**CLI to search and delete unimported 🧟 components in your react files**
 
 <p align="center">
   <img src="https://github.com/CVarisco/delete-react-zombies/blob/master/docs/delete-react-zombies-demo.gif" alt="delete-react-zombies" width="800" />
 </p>
 
 ## Install
-
-This package use the_silver_searcher, install [the_silver_searcher](https://github.com/ggreer/the_silver_searcher#installing) for your OS before.
 
 ```sh
 $ npm install delete-react-zombies
@@ -21,19 +22,18 @@ $ npm install delete-react-zombies
 ```sh
 $ delete-react-zombies
 ```
+
 **Options**:
 
-* `--path` define the path where search zombies (default=process.cwd)
+- `--path` define the path where search zombies (default=process.cwd)
+- `--verbose` show in the console the file content to be deleted
+- `--force` don't ask confirm before delete files.
 
 ## How it works
 
 The package search in your files the keyword `import ${componentName}`.
-The `componentName` variable is the name of the file that your component
-have with `.jsx` extension.
-
-Example:
-If we have a component file name `Button.jsx`, the package will search
-imports like `import Button`
+The `componentName` variable is the name of the component that is exported.
+To understand the component name I'm using [react-docgen](https://github.com/reactjs/react-docgen)
 
 ## Contributing
 
@@ -42,7 +42,7 @@ The library is open to everybody, contribute improve your skills.
 
 `delete-react-zombies` is maintained under [the Semantic Versioning guidelines](http://semver.org/).
 
-Use `npm run watch` while coding.
+Use `npm run build:ts` while coding.
 
 ## License
 
