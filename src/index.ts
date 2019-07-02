@@ -101,7 +101,7 @@ async function confirmDelete(components: Component[]) {
       {
         type: 'confirm',
         name: 'confirm',
-        message: `Do you want delete ${component.path} ?`,
+        message: `Do you want to delete ${component.path} ?`,
       },
     ]);
     //@ts-ignore
