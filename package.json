@@ -1,7 +1,7 @@
 {
   "name": "delete-react-zombies",
-  "version": "1.0.0",
-  "description": "Search and delete unused components in your react files",
+  "version": "2.0.0",
+  "description": "Search and delete unimported components in your react files",
   "author": "Christian Varisco <vari.chri1993@gmail.com>",
   "bin": {
     "delete-react-zombies": "./dist/index.js"
