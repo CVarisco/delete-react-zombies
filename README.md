@@ -8,7 +8,7 @@
 **CLI to search and delete unimported 🧟 components in your react files**
 
 <p align="center">
-  <img src="https://github.com/CVarisco/delete-react-zombies/blob/master/docs/delete-react-zombies-demo.gif" alt="delete-react-zombies" width="800" />
+  <img src="https://github.com/CVarisco/delete-react-zombies/blob/master/docs/demo.gif" alt="delete-react-zombies" width="800" />
 </p>
 
 ## Install
