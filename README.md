@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".https://github.com/CVarisco/delete-react-zombies/blob/master/docs/logo.png" width="500" alt="delete-react-zombies"/>
+  <img src="https://github.com/CVarisco/delete-react-zombies/blob/master/docs/logo.png" width="500" alt="delete-react-zombies"/>
 </p>
 
 [![npm version](https://badge.fury.io/js/delete-react-zombies.svg)](https://badge.fury.io/js/delete-react-zombies)
