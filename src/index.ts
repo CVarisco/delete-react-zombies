@@ -1,119 +1,131 @@
 #!/usr/bin/env node
-import * as fs from 'fs';
-import ora from 'ora';
-import { argv as args } from 'yargs';
-import { prompt } from 'inquirer';
-// import reactDocs from 'react-docgen';
-import { deleteComponents, deleteComponent, isDirectory, isAvailableFile } from './utils';
+import * as fs from "fs";
+import ora from "ora";
+import { argv as args } from "yargs";
+import { prompt } from "inquirer";
+import { isImported, deleteComponents, deleteComponent } from "./utils";
+const reactDocs = require("react-docgen");
 
-const reactDocs = require('react-docgen');
+/**
+ * @description Parse with react-docgen and return componentName if exists
+ */
+function getComponentName(fileContent: string): string {
+  try {
+    const parsed = reactDocs.parse(fileContent);
 
-function getFiles(path: string): FileReaded[] {
+    return parsed.displayName || "";
+  } catch (error) {
+    return "";
+  }
+}
+
+/**
+ * @description Loop into the dir and find React Components.
+ * The research occurs based on file extension.
+ * Get the content of the file if the extension is correct, build the component with https://github.com/reactjs/react-docgen to get the componentName
+ */
+function getComponentsFromDir(path: string): Component[] {
   const files = fs.readdirSync(path);
 
-  return files.reduce((acc: FileReaded[], file: string) => {
-    const filePath = `${path}/${file}`;
+  return files.reduce((acc: Component[], fileName: string): Component[] => {
+    const filePath = `${path}/${fileName}`;
+    const isDirectory = fs.statSync(filePath).isDirectory();
 
-    if (isDirectory(filePath)) {
-      return [...acc, ...getFiles(filePath)];
+    if (isDirectory) {
+      return [...acc, ...getComponentsFromDir(filePath)];
+    }
+
+    if (fileName.search(/.js|.ts|.jsx/g) !== -1) {
+      const fileContent = fs.readFileSync(filePath, {
+        encoding: "utf-8"
+      });
+      const componentName = getComponentName(fileContent);
+
+      if (!componentName) {
+        return acc;
+      }
+
+      return [
+        ...acc,
+        {
+          name: componentName,
+          path: filePath,
+          content: fileContent
+        }
+      ];
     }
     let fileContent;
-
-    if (isAvailableFile(file)) {
-      try {
-        fileContent = reactDocs.parse(filePath, 'findAllComponentDefinitions');
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    return [
-      ...acc,
-      {
-        path: filePath,
-        content: fileContent,
-      },
-    ];
 
     return acc;
   }, []);
 }
 
-// function getComponents(files: FileReaded[]): Component[] {
-//   return files.reduce((components: Component[], file: FileReaded): Component[] => {
-//     if (isImported('React', file.content)) {
-//       return [
-//         ...components,
-//         {
-//           name: getComponentName(file.content).getOrElse(
-//             `[ERROR]: This file does not contain an exported default component ${file.path}`
-//           ),
-//           path: file.path,
-//           content: file.content,
-//         },
-//       ];
-//     }
+/**
+ * @description Loop throuth the list of files and verify if the component name is imported into the file
+ * If yes, stop the loop
+ * If no, return the component information to be deleted
+ */
+function verifyImport(
+  component: Component,
+  listOfComponents: Component[]
+): Component | undefined {
+  for (const file of listOfComponents) {
+    if (isImported(component.name, file.content)) {
+      return;
+    }
 
-//     return components;
-//   }, []);
-// }
+  return component;
+}
 
-// function verifyImport(component: Component, files: FileReaded[]): Component | undefined {
-//   for (const file of files) {
-//     if (isImported(component.name, file.content)) {
-//       return;
-//     }
-//   }
+/**
+ * @description For each component verify if is imported on the list of files and create a list of unused components
+ */
+function getUnusedComponents(components: Component[]): Component[] {
+  return components.reduce((acc: Component[], curr: Component) => {
+    const componentFound = verifyImport(curr, components);
 
-//   return component;
-// }
+    return acc;
+  }, []);
+}
 
-// function getUnusedComponents(components: Component[], files: FileReaded[]): Component[] {
-//   return components.reduce((acc: Component[], curr: Component) => {
-//     const componentFound = verifyImport(curr, files);
+/**
+ * @description Loop all components to delete and ask with a question a confirmation
+ */
+async function askBeforeDelete(components: Component[]) {
+  for (const component of components) {
+    if (args.verbose) {
+      console.log(component.content);
+    }
+    const answer = await prompt([
+      {
+        type: "confirm",
+        name: "confirm",
+        message: `Do you want delete ${component.path} ?`
+      }
+    ]);
+    //@ts-ignore
+    if (answer.confirm) {
+      deleteComponent(component);
+    }
+  }
+}
 
-//     if (componentFound) {
-//       return [...acc, componentFound];
-//     }
-//     return acc;
-//   }, []);
-// }
-
-// async function askBeforeDelete(components: Component[]) {
-//   for (const component of components) {
-//     if (args.verbose) {
-//       console.log(component.content);
-//     }
-//     const answer = await prompt([
-//       {
-//         type: 'confirm',
-//         name: 'confirm',
-//         message: `Do you want delete ${component.path} ?`,
-//       },
-//     ]);
-//     //@ts-ignore
-//     if (answer.confirm) {
-//       deleteComponent(component);
-//     }
-//   }
-// }
-
-(async function () {
-  // const spinner = ora({
-  //   text: 'Searching zombie components',
-  //   spinner: 'pong',
-  // }).start();
+(async function() {
+  const spinner = ora({
+    text: "Searching zombie components"
+  }).start();
   const path = args.path || process.cwd();
-  const files = getFiles(path);
-  console.log(files);
-  // const components = getComponents(files);
-  // const zombieComponents = getUnusedComponents(components, files);
-  // spinner.stop();
-  // console.log(`\n ${zombieComponents.length} unused components found! \n`);
+  const components = getComponentsFromDir(path);
+  spinner.text = "Searching zombie components";
+  console.log(`\n\n${components.length} components found! \n`);
+  const zombieComponents = getUnusedComponents(components);
+  spinner.stop();
+  console.log(`${zombieComponents.length} unused components found! \n`);
 
-  // if (args.force) {
-  //   return deleteComponents(zombieComponents);
-  // }
+  if (args.force) {
+    return deleteComponents(zombieComponents);
+  }
 
-  // return await askBeforeDelete(zombieComponents);
-}());
+  await askBeforeDelete(zombieComponents);
+  return console.log("\nBye bye!");
+})();
