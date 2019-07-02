@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import * as fs from "fs";
-import ora from "ora";
-import { argv as args } from "yargs";
-import { prompt } from "inquirer";
-import { isImported, deleteComponents, deleteComponent } from "./utils";
-const reactDocs = require("react-docgen");
+import * as fs from 'fs';
+import ora from 'ora';
+import { argv as args } from 'yargs';
+import { prompt } from 'inquirer';
+import { isImported, deleteComponents, deleteComponent } from './utils';
+const reactDocs = require('react-docgen');
 
 /**
  * @description Parse with react-docgen and return componentName if exists
@@ -13,9 +13,9 @@ function getComponentName(fileContent: string): string {
   try {
     const parsed = reactDocs.parse(fileContent);
 
-    return parsed.displayName || "";
+    return parsed.displayName || '';
   } catch (error) {
-    return "";
+    return '';
   }
 }
 
@@ -37,7 +37,7 @@ function getComponentsFromDir(path: string): Component[] {
 
     if (fileName.search(/.js|.ts|.jsx/g) !== -1) {
       const fileContent = fs.readFileSync(filePath, {
-        encoding: "utf-8"
+        encoding: 'utf-8',
       });
       const componentName = getComponentName(fileContent);
 
@@ -50,11 +50,10 @@ function getComponentsFromDir(path: string): Component[] {
         {
           name: componentName,
           path: filePath,
-          content: fileContent
-        }
+          content: fileContent,
+        },
       ];
     }
-    let fileContent;
 
     return acc;
   }, []);
@@ -65,14 +64,12 @@ function getComponentsFromDir(path: string): Component[] {
  * If yes, stop the loop
  * If no, return the component information to be deleted
  */
-function verifyImport(
-  component: Component,
-  listOfComponents: Component[]
-): Component | undefined {
+function verifyImport(component: Component, listOfComponents: Component[]): Component | undefined {
   for (const file of listOfComponents) {
     if (isImported(component.name, file.content)) {
       return;
     }
+  }
 
   return component;
 }
@@ -81,27 +78,31 @@ function verifyImport(
  * @description For each component verify if is imported on the list of files and create a list of unused components
  */
 function getUnusedComponents(components: Component[]): Component[] {
-  return components.reduce((acc: Component[], curr: Component) => {
-    const componentFound = verifyImport(curr, components);
+  return components.reduce((acc: Component[], curr: Component): Component[] => {
+    const componentUnUsed = verifyImport(curr, components);
 
-    return acc;
+    if (!componentUnUsed) {
+      return acc;
+    }
+
+    return [...acc, componentUnUsed];
   }, []);
 }
 
 /**
  * @description Loop all components to delete and ask with a question a confirmation
  */
-async function askBeforeDelete(components: Component[]) {
+async function confirmDelete(components: Component[]) {
   for (const component of components) {
     if (args.verbose) {
       console.log(component.content);
     }
     const answer = await prompt([
       {
-        type: "confirm",
-        name: "confirm",
-        message: `Do you want delete ${component.path} ?`
-      }
+        type: 'confirm',
+        name: 'confirm',
+        message: `Do you want delete ${component.path} ?`,
+      },
     ]);
     //@ts-ignore
     if (answer.confirm) {
@@ -110,15 +111,17 @@ async function askBeforeDelete(components: Component[]) {
   }
 }
 
-(async function() {
+(async function () {
   const spinner = ora({
-    text: "Searching zombie components"
+    text: 'Searching zombie components',
   }).start();
+
   const path = args.path || process.cwd();
   const components = getComponentsFromDir(path);
-  spinner.text = "Searching zombie components";
+
   console.log(`\n\n${components.length} components found! \n`);
   const zombieComponents = getUnusedComponents(components);
+
   spinner.stop();
   console.log(`${zombieComponents.length} unused components found! \n`);
 
@@ -126,6 +129,6 @@ async function askBeforeDelete(components: Component[]) {
     return deleteComponents(zombieComponents);
   }
 
-  await askBeforeDelete(zombieComponents);
-  return console.log("\nBye bye!");
-})();
+  await confirmDelete(zombieComponents);
+  return console.log('\nBye bye!');
+}());
