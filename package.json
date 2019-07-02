@@ -36,6 +36,10 @@
   },
   "homepage": "https://github.com/CVarisco/delete-react-zombies#readme",
   "devDependencies": {
+    "@types/inquirer": "0.0.41",
+    "@types/node": "12.0.4",
+    "@types/ora": "3.2.0",
+    "@types/yargs": "11.0.0",
     "babel-cli": "6.26.0",
     "babel-eslint": "7.1.1",
     "babel-preset-env": "1.7.0",
@@ -48,10 +52,6 @@
     "npm-watch": "0.1.7"
   },
   "dependencies": {
-    "@types/inquirer": "0.0.41",
-    "@types/node": "12.0.4",
-    "@types/ora": "3.2.0",
-    "@types/yargs": "11.0.0",
     "inquirer": "6.3.1",
     "ora": "3.4.0",
     "react-docgen": "4.1.1",

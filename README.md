@@ -31,9 +31,8 @@ $ delete-react-zombies
 
 ## How it works
 
-The package search in your files the keyword `import ${componentName}`.
-The `componentName` variable is the name of the component that is exported.
-To understand the component name I'm using [react-docgen](https://github.com/reactjs/react-docgen)
+The package search create a list of components in your application.
+Based on that, the library search in your files content the keyword `import ${componentName}`, where the `componentName` variable is the name of the component that is exported.
 
 ## Contributing
 
