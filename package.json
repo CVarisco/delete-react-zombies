@@ -1,7 +1,7 @@
 {
   "name": "delete-react-zombies",
-  "version": "0.0.4",
-  "description": "Search and delete unused components in your react files",
+  "version": "2.0.0",
+  "description": "Search and delete unimported components in your react files",
   "author": "Christian Varisco <vari.chri1993@gmail.com>",
   "bin": {
     "delete-react-zombies": "./dist/index.js"
@@ -10,10 +10,13 @@
     "node": ">=6"
   },
   "main": "./dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint src test",
     "build": "./scripts/build.sh",
+    "build:ts": "tsc -w",
     "watch": "npm-watch",
     "try": "node ./dist/index.js",
     "test": "jest",
@@ -33,20 +36,25 @@
   },
   "homepage": "https://github.com/CVarisco/delete-react-zombies#readme",
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-eslint": "^7.1.1",
-    "babel-preset-env": "^1.1.8",
-    "babel-preset-stage-2": "^6.18.0",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb-base": "^11.0.1",
-    "eslint-plugin-import": "^2.2.0",
-    "jest": "^20.0.4",
-    "mock-fs": "^3.12.1",
-    "npm-watch": "^0.1.7"
+    "@types/inquirer": "0.0.41",
+    "@types/node": "12.0.4",
+    "@types/ora": "3.2.0",
+    "@types/yargs": "11.0.0",
+    "babel-cli": "6.26.0",
+    "babel-eslint": "7.1.1",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-stage-2": "6.24.1",
+    "eslint": "3.14.0",
+    "eslint-config-airbnb-base": "11.0.1",
+    "eslint-plugin-import": "2.2.0",
+    "jest": "24.8.0",
+    "mock-fs": "3.12.1",
+    "npm-watch": "0.1.7"
   },
   "dependencies": {
-    "inquirer": "5.1.0",
-    "ora": "1.4.0",
-    "yargs": "11.0.0"
+    "inquirer": "6.3.1",
+    "ora": "3.4.0",
+    "react-docgen": "4.1.1",
+    "yargs": "13.2.0"
   }
 }

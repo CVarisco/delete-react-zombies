@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es5", // Compatible with older browsers
+    "module": "umd", // Compatible with both Node.js and browser
+    "moduleResolution": "node", // Tell tsc to look in node_modules for modules
+    "sourceMap": true, // Creates *.js.map files
+    "strict": true, // Strict types, eg. prohibits `var x=0; x=null`
+    "alwaysStrict": true, // Enable JavaScript's "use strict" mode
+    "outDir": "dist"
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
