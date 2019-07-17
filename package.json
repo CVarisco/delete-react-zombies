@@ -1,6 +1,6 @@
 {
   "name": "delete-react-zombies",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Search and delete unimported components in your react files",
   "author": "Christian Varisco <vari.chri1993@gmail.com>",
   "bin": {
