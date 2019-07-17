@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import ora from 'ora';
 import { argv as args } from 'yargs';
 import { prompt } from 'inquirer';
-import { isImported, deleteComponents, deleteComponent } from './utils';
+import { isImported, deleteComponents, deleteComponent, isAvailableFile } from './utils';
 const reactDocs = require('react-docgen');
 
 /**
@@ -35,7 +35,7 @@ function getComponentsFromDir(path: string): Component[] {
       return [...acc, ...getComponentsFromDir(filePath)];
     }
 
-    if (fileName.search(/.js|.ts|.jsx/g) !== -1) {
+    if (isAvailableFile(fileName)) {
       const fileContent = fs.readFileSync(filePath, {
         encoding: 'utf-8',
       });
