@@ -24,15 +24,20 @@ function getComponentName(fileContent: string): string {
  * The research occurs based on file extension.
  * Get the content of the file if the extension is correct, build the component with https://github.com/reactjs/react-docgen to get the componentName
  */
-function getComponentsFromDir(path: string): Component[] {
-  const files = fs.readdirSync(!!baseUrl ? `${path}/${baseUrl}` : path);
+function getComponentsFromDir(path: string, isSubfolder: boolean = false): Component[] {
+  const useFullPath = !args.path && args.absoluteImports && !isSubfolder ? `${path}/${baseUrl}` : path;
+
+  const whereToLook: string = useFullPath;
+  const files = fs.readdirSync(whereToLook);
 
   return files.reduce((acc: Component[], fileName: string): Component[] => {
-    const filePath = !!baseUrl ? `${path}/${baseUrl}/${fileName}` : `${path}/${fileName}`;
+    const filePath = `${useFullPath}/${fileName}`;
+
     const isDirectory = fs.statSync(filePath).isDirectory();
 
     if (isDirectory) {
-      return [...acc, ...getComponentsFromDir(filePath)];
+      if (fileName.includes("node_modules")) return [...acc];
+      return [...acc, ...getComponentsFromDir(filePath, true)];
     }
 
     if (isAvailableFile(fileName)) {
@@ -112,8 +117,12 @@ async function confirmDelete(components: Component[]) {
 }
 
 (async function () {
-  if (args.verbose) {
-    console.log(`${!!baseUrl ? `Using baseUrl: '${baseUrl}'` : "Not using baseUrl"} `)
+  if (args.verbose && args.absoluteImports) {
+    if (args.path) {
+      console.log(`--absoluteImports AND --path conflict.\t Will use path: '${args.path}' instead of absoluteImports`)
+    } else {
+      console.log(`--absoluteImports. \tWill use baseUrl: '${baseUrl}'`);
+    }
   }
 
   const spinner = ora({
