@@ -1,5 +1,12 @@
 import * as fs from 'fs';
 
+const jsConfigLocation = "../jsconfig.json";
+const jsconfig = fs.existsSync(jsConfigLocation) ? require(jsConfigLocation) : null;
+const tsConfigLocation = "../tsconfig.json";
+const tsconfig = fs.existsSync(tsConfigLocation) ? require(tsConfigLocation) : null;
+
+export const baseUrl: string = tsconfig?.compilerOptions?.baseUrl || jsconfig?.compilerOptions?.baseUrl || "";
+
 export const isImported = (text: string, content: string): boolean =>
   content.indexOf(`import ${text}`) !== -1;
 
