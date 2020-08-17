@@ -6,8 +6,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"alwaysStrict": true,
-		"outDir": "dist",
-		"resolveJsonModule": true
+		"outDir": "dist"
 	},
 	"include": ["**/*.ts"],
 	"exclude": ["node_modules"]
