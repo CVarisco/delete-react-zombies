@@ -36,7 +36,7 @@ function getComponentsFromDir(path: string, isSubfolder: boolean = false): Compo
     const isDirectory = fs.statSync(filePath).isDirectory();
 
     if (isDirectory) {
-      if (fileName.includes("node_modules")) return [...acc];
+      if (args.ignoreNodeModules && fileName.includes("node_modules")) return [...acc];
       return [...acc, ...getComponentsFromDir(filePath, true)];
     }
 

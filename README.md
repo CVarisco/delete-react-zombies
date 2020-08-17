@@ -28,7 +28,8 @@ $ delete-react-zombies
 -   `--path` define the path where search zombies (default=process.cwd)
 -   `--verbose` show in the console the file content to be deleted
 -   `--force` don't ask confirm before delete files.
--   `--absoluteImports` include the baseUrl in the path`
+-   `--ignoreNodeModules` skip looking in the node_modules folder
+-   `--absoluteImports` include the baseUrl in the path
 
 ## How it works
 
