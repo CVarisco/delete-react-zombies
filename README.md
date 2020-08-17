@@ -40,7 +40,7 @@ Based on that, the library search in your files content the keyword `import ${co
 
 If your react project is configured to support [importing modules & components using absolute paths](https://create-react-app.dev/docs/importing-a-component/#absolute-imports) then turning this on will add the base url into the path & component name check.
 
-> Note this
+> Note: If you also provide a path this will be ignored.
 
 ## Contributing
 
