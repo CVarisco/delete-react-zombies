@@ -6,7 +6,8 @@
 		"sourceMap": true,
 		"strict": true,
 		"alwaysStrict": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"baseUrl": "components_test"
 	},
 	"include": ["**/*.ts"],
 	"exclude": ["node_modules"]

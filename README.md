@@ -25,14 +25,21 @@ $ delete-react-zombies
 
 **Options**:
 
-- `--path` define the path where search zombies (default=process.cwd)
-- `--verbose` show in the console the file content to be deleted
-- `--force` don't ask confirm before delete files.
+-   `--path` define the path where search zombies (default=process.cwd)
+-   `--verbose` show in the console the file content to be deleted
+-   `--force` don't ask confirm before delete files.
+-   `--absoluteImports` include the baseUrl in the path`
 
 ## How it works
 
 The package create a list of components in your application.
 Based on that, the library search in your files content the keyword `import ${componentName}`, where the `componentName` variable is the name of the component that is exported.
+
+## Absolute imports (baseUrl)
+
+If your react project is configured to support [importing modules & components using absolute paths](https://create-react-app.dev/docs/importing-a-component/#absolute-imports) then turning this on will add the base url into the path & component name check.
+
+> Note this
 
 ## Contributing
 
