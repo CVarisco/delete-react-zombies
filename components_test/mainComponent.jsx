@@ -1,9 +1,10 @@
 import React from "react";
-import ComponentUsed from "./componentUsed";
+import ComponentUsed from "./ComponentUsed";
+import ComponentImported from "./mixed/ComponentImported";
 
 class Main extends React.Component {
   render() {
-    return <ComponentUsed>Hello World</ComponentUsed>;
+    return <ComponentUsed>Hello World<ComponentImported /></ComponentUsed>;
   }
 }
 
