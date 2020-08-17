@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 
-const jsConfigLocation = "../jsconfig.json";
-const jsconfig = fs.existsSync(jsConfigLocation) ? require(jsConfigLocation) : null;
-const tsConfigLocation = "../tsconfig.json";
-const tsconfig = fs.existsSync(tsConfigLocation) ? require(tsConfigLocation) : null;
+const jsConfigLocation = "./jsconfig.json";
+const jsconfig = fs.existsSync("./jsconfig.json") ? require("../jsconfig.json") : {};
+console.log(fs.existsSync(jsConfigLocation))
+const tsconfig = fs.existsSync("./tsconfig.json") ? require("../tsconfig.json") : {};
 
 export const baseUrl: string = tsconfig?.compilerOptions?.baseUrl || jsconfig?.compilerOptions?.baseUrl || "";
 
