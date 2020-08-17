@@ -1,13 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "umd",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "outDir": "dist"
-  },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"target": "es5",
+		"module": "umd",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"strict": true,
+		"alwaysStrict": true,
+		"outDir": "dist",
+		"resolveJsonModule": true
+	},
+	"include": ["**/*.ts"],
+	"exclude": ["node_modules"]
 }
