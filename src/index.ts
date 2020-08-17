@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import ora from 'ora';
 import { argv as args } from 'yargs';
 import { prompt } from 'inquirer';
-import { isImported, deleteComponents, deleteComponent, isAvailableFile } from './utils';
+import { isImported, deleteComponents, deleteComponent, isAvailableFile, baseUrl } from './utils';
 const reactDocs = require('react-docgen');
 
 /**
@@ -25,10 +25,10 @@ function getComponentName(fileContent: string): string {
  * Get the content of the file if the extension is correct, build the component with https://github.com/reactjs/react-docgen to get the componentName
  */
 function getComponentsFromDir(path: string): Component[] {
-  const files = fs.readdirSync(path);
+  const files = fs.readdirSync(!!baseUrl ? `${path}/${baseUrl}` : path);
 
   return files.reduce((acc: Component[], fileName: string): Component[] => {
-    const filePath = `${path}/${fileName}`;
+    const filePath = !!baseUrl ? `${path}/${baseUrl}/${fileName}` : `${path}/${fileName}`;
     const isDirectory = fs.statSync(filePath).isDirectory();
 
     if (isDirectory) {
@@ -112,6 +112,10 @@ async function confirmDelete(components: Component[]) {
 }
 
 (async function () {
+  if (args.verbose) {
+    console.log(`${!!baseUrl ? `Using baseUrl: '${baseUrl}'` : "Not using baseUrl"} `)
+  }
+
   const spinner = ora({
     text: 'Searching zombie components',
   }).start();
